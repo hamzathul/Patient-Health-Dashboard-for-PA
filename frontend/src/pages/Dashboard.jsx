@@ -25,8 +25,8 @@ const Dashboard = () => {
   );
 
   return (
-    <div className="container mx-auto p-6">
-      <h1 className="text-4xl font-bold mb-8 text-center text-gray-800">
+    <div className="min-h-screen bg-gray-900 p-6">
+      <h1 className="text-4xl font-bold mb-8 text-center text-white">
         Patient Dashboard
       </h1>
 
@@ -34,7 +34,7 @@ const Dashboard = () => {
       <div className="mb-8 flex justify-center">
         <input
           type="text"
-          className="w-1/2 p-4 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg"
+          className="w-1/2 p-4 rounded-lg border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg"
           placeholder="Search by patient name or condition"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -43,7 +43,7 @@ const Dashboard = () => {
 
       {/* Patient List */}
       <div className="overflow-x-auto">
-        <table className="min-w-full bg-white shadow-lg rounded-lg overflow-hidden">
+        <table className="min-w-full bg-gray-800 shadow-lg rounded-lg overflow-hidden">
           <thead className="bg-blue-700 text-white">
             <tr>
               <th className="py-4 px-6 text-left text-lg">Name</th>
@@ -52,16 +52,18 @@ const Dashboard = () => {
               <th className="py-4 px-6 text-left text-lg">Actions</th>
             </tr>
           </thead>
-          <tbody className="divide-y divide-gray-200">
+          <tbody className="divide-y divide-gray-700">
             {filteredPatients.length > 0 ? (
               filteredPatients.map((patient) => (
                 <tr
                   key={patient._id}
-                  className="hover:bg-gray-100 transition duration-200"
+                  className="hover:bg-gray-700 transition duration-200"
                 >
-                  <td className="py-3 px-6">{patient.name}</td>
-                  <td className="py-3 px-6">{patient.age}</td>
-                  <td className="py-3 px-6">{patient.condition}</td>
+                  <td className="py-3 px-6 text-gray-300">{patient.name}</td>
+                  <td className="py-3 px-6 text-gray-300">{patient.age}</td>
+                  <td className="py-3 px-6 text-gray-300">
+                    {patient.condition}
+                  </td>
                   <td className="py-3 px-6">
                     <Link
                       to={`/patient/${patient._id}`}
