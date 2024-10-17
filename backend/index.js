@@ -8,6 +8,9 @@ import { connectDB } from "./db/connectDB.js";
 import patientRoutes from "./routes/patient.route.js";
 import authorizationRoutes from './routes/authorization.route.js'
 import authRoutes from './routes/auth.route.js'
+import job from "./cron.js";
+
+job.start()
 // import { seedPatients } from "./seeder.js";
 // seedPatients()
 
