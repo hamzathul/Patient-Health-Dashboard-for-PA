@@ -10,7 +10,6 @@ export const createAuthorization = async (req, res) => {
     doctorNotes,
     authStatus,
   } = req.body;
-
   try {
     // Check if an authorization request already exists for the patient
     const existingRequest = await AuthorizationRequest.findOne({ patientId });
