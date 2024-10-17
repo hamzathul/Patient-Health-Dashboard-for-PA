@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom"; // Import useNavigate
 import PAForm from "../components/PAForm";
 
 const PatientDetails = () => {
@@ -9,6 +9,7 @@ const PatientDetails = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredMedicalHistory, setFilteredMedicalHistory] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   // Fetch patient details when the component loads
   useEffect(() => {
@@ -50,6 +51,14 @@ const PatientDetails = () => {
         {patient.name}'s Details
       </h1>
 
+      {/* Back Button */}
+      <button
+        onClick={() => navigate(-1)} // Go back to the previous page
+        className="mb-4 p-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
+      >
+        Back
+      </button>
+
       {/* Search Input for Medical History */}
       <div className="mb-4">
         <input
@@ -80,7 +89,9 @@ const PatientDetails = () => {
           {filteredMedicalHistory.length > 0 ? (
             <ul className="list-disc list-inside text-gray-300 mt-1">
               {filteredMedicalHistory.map((item, index) => (
-                <li className="mt-2" key={index}>{item}</li>
+                <li className="mt-2" key={index}>
+                  {item}
+                </li>
               ))}
             </ul>
           ) : (
