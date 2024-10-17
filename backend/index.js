@@ -4,7 +4,7 @@ import cors from "cors";
 
 import { connectDB } from "./db/connectDB.js";
 import patientRoutes from "./routes/patient.route.js";
-// import authorizationRoutes from './routes/authorization.route.js'
+import authorizationRoutes from './routes/authorization.route.js'
 // import { seedPatients } from "./seeder.js";
 // seedPatients()
 
@@ -19,7 +19,7 @@ app.use(cors({ origin: corsURI, credentials: true })); //This middleware enables
 app.use(express.json()); // allows to parse incoming requests : req.body
 
 app.use("/api/patient", patientRoutes);
-// app.use("/api/authorization", authorizationRoutes);
+app.use("/api/authorization", authorizationRoutes);
 
 app.listen(PORT, () => {
   connectDB();

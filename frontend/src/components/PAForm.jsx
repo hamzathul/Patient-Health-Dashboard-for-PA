@@ -6,7 +6,7 @@ const PAForm = () => {
   const { id } = useParams(); // Get patient ID from the URL
 
   const [formData, setFormData] = useState({
-    treatment: "",
+    treatmentType: "",
     insurancePlan: "",
     dateOfService: "",
     diagnosisCode: "",
@@ -26,7 +26,7 @@ const PAForm = () => {
     e.preventDefault();
 
     try {
-      await axios.post("/api/authorizations", {
+      await axios.post("/authorization", {
         ...formData,
         patientId: id,
       });
@@ -46,8 +46,8 @@ const PAForm = () => {
             <label className="block mb-2 font-medium">Treatment Type</label>
             <input
               type="text"
-              name="treatment"
-              value={formData.treatment}
+              name="treatmentType"
+              value={formData.treatmentType}
               onChange={handleChange}
               className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               required
