@@ -51,7 +51,7 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gray-900 p-6">
       <h1 className="text-4xl font-bold mb-8 text-center text-white">
-        Patient Dashboard
+        Patient Health Dashboard
       </h1>
 
       {/* Search Input */}
@@ -74,7 +74,6 @@ const Dashboard = () => {
               <th className="py-4 px-6 text-left text-lg">Age</th>
               <th className="py-4 px-6 text-left text-lg">Condition</th>
               <th className="py-4 px-6 text-left text-lg">Status</th>{" "}
-              {/* New Status Column */}
               <th className="py-4 px-6 text-left text-lg">Actions</th>
             </tr>
           </thead>
@@ -91,7 +90,7 @@ const Dashboard = () => {
                     {patient.condition}
                   </td>
                   <td className="py-3 px-6 text-gray-300">
-                    {patient.authStatus || "Pending"} {/* Displaying Status */}
+                    {patient.authStatus || "Pending"} 
                   </td>
                   <td className="py-3 px-6">
                     <Link
