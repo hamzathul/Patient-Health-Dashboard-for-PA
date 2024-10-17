@@ -1,12 +1,17 @@
 import { useState } from 'react'
 import './App.css'
+import { Route, Routes } from 'react-router-dom';
+import Dashboard from './components/Dashboard';
 
 function App() {
   
 
   return (
     <>
-      <h1 className="text-3xl font-bold underline">Hello world!</h1>
+      <Routes>
+        <Route path='/dashboard' element={<Dashboard/>}/>
+
+      </Routes>
     </>
   );
 }
