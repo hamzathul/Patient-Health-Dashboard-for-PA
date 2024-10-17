@@ -4,6 +4,8 @@ import dotenv from "dotenv";
 import { connectDB } from "./db/connectDB.js";
 import patientRoutes from './routes/patient.route.js'
 // import authorizationRoutes from './routes/authorization.route.js'
+// import { seedPatients } from "./seeder.js";
+// seedPatients()
 
 dotenv.config();
 const app = express();
