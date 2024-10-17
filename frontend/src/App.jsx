@@ -3,6 +3,7 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/Dashboard';
 import PatientDetails from './pages/PatientDetails';
+import {Toaster} from 'react-hot-toast'
 
 function App() {
   
@@ -14,6 +15,7 @@ function App() {
         <Route path='/patient/:id' element={<PatientDetails/>}/>
 
       </Routes>
+      <Toaster/>
     </>
   );
 }

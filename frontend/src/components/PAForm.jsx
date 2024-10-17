@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
 
 const PAForm = () => {
   const { id } = useParams(); // Get patient ID from the URL
@@ -31,7 +32,7 @@ const PAForm = () => {
         ...formData,
         patientId: id,
       });
-      alert("Authorization request submitted successfully.");
+      toast.success("Authorization request submitted successfully.");
     } catch (error) {
       console.error("Error submitting authorization request:", error);
     }
