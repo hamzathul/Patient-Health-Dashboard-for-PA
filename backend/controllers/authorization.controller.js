@@ -8,6 +8,7 @@ export const createAuthorization = async(req, res)=>{
        dateOfService,
        diagnosisCode,
        doctorNotes,
+       authStatus,
      } = req.body;
     try {
         const newRequest = new AuthorizationRequest({

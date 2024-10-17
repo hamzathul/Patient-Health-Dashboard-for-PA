@@ -11,6 +11,7 @@ const PAForm = () => {
     dateOfService: "",
     diagnosisCode: "",
     doctorNotes: "",
+    authStatus:""
   });
 
   // Handle form input changes
@@ -101,7 +102,24 @@ const PAForm = () => {
               required
             ></textarea>
           </div>
-
+          <div className="mb-4">
+            <label
+              className="block text-gray-700 text-sm font-bold mb-2"
+              htmlFor="status"
+            >
+              Authorization Status
+            </label>
+            <select
+              name="authStatus"
+              value={formData.authStatus}
+              onChange={handleChange}
+              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700"
+            >
+              <option value="pending">Pending</option>
+              <option value="approved">Approved</option>
+              <option value="denied">Denied</option>
+            </select>
+          </div>
           <button
             type="submit"
             className="w-full bg-blue-500 text-white py-3 rounded-lg font-semibold hover:bg-blue-700 transition duration-300"
