@@ -5,10 +5,13 @@ import { Link } from "react-router-dom";
 const Dashboard = () => {
   const [patients, setPatients] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [loading, setLoading] = useState(true); // New loading state
 
   useEffect(() => {
     const fetchPatients = async () => {
       try {
+        setLoading(true); 
+
         const response = await axios.get("/patient/all");
         const patientData = response.data;
 
@@ -37,12 +40,13 @@ const Dashboard = () => {
         setPatients(patientsWithStatus);
       } catch (error) {
         console.error("Error fetching patient data:", error);
+      } finally {
+        setLoading(false); 
       }
     };
 
     fetchPatients();
   }, []);
-
 
   const filteredPatients = patients.filter((patient) =>
     patient.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -65,53 +69,59 @@ const Dashboard = () => {
         />
       </div>
 
-      {/* Patient List */}
-      <div className="overflow-x-auto">
-        <table className="min-w-full bg-gray-800 shadow-lg rounded-lg overflow-hidden">
-          <thead className="bg-blue-700 text-white">
-            <tr>
-              <th className="py-4 px-6 text-left text-lg">Name</th>
-              <th className="py-4 px-6 text-left text-lg">Age</th>
-              <th className="py-4 px-6 text-left text-lg">Condition</th>
-              <th className="py-4 px-6 text-left text-lg">Status</th>{" "}
-              <th className="py-4 px-6 text-left text-lg">Actions</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-700">
-            {filteredPatients.length > 0 ? (
-              filteredPatients.map((patient) => (
-                <tr
-                  key={patient._id}
-                  className="hover:bg-gray-700 transition duration-200"
-                >
-                  <td className="py-3 px-6 text-gray-300">{patient.name}</td>
-                  <td className="py-3 px-6 text-gray-300">{patient.age}</td>
-                  <td className="py-3 px-6 text-gray-300">
-                    {patient.condition}
-                  </td>
-                  <td className="py-3 px-6 text-gray-300">
-                    {patient.authStatus || "Pending"} 
-                  </td>
-                  <td className="py-3 px-6">
-                    <Link
-                      to={`/patient/${patient._id}`}
-                      className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
-                    >
-                      View Details
-                    </Link>
+      {/* Loading Spinner */}
+      {loading ? (
+        <div className="flex justify-center items-center min-h-[200px]">
+          <div className="loader ease-linear rounded-full border-4 border-t-4 border-gray-200 h-12 w-12"></div>
+        </div>
+      ) : (
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-gray-800 shadow-lg rounded-lg overflow-hidden">
+            <thead className="bg-blue-700 text-white">
+              <tr>
+                <th className="py-4 px-6 text-left text-lg">Name</th>
+                <th className="py-4 px-6 text-left text-lg">Age</th>
+                <th className="py-4 px-6 text-left text-lg">Condition</th>
+                <th className="py-4 px-6 text-left text-lg">Status</th>
+                <th className="py-4 px-6 text-left text-lg">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-gray-700">
+              {filteredPatients.length > 0 ? (
+                filteredPatients.map((patient) => (
+                  <tr
+                    key={patient._id}
+                    className="hover:bg-gray-700 transition duration-200"
+                  >
+                    <td className="py-3 px-6 text-gray-300">{patient.name}</td>
+                    <td className="py-3 px-6 text-gray-300">{patient.age}</td>
+                    <td className="py-3 px-6 text-gray-300">
+                      {patient.condition}
+                    </td>
+                    <td className="py-3 px-6 text-gray-300">
+                      {patient.authStatus || "Pending"}
+                    </td>
+                    <td className="py-3 px-6">
+                      <Link
+                        to={`/patient/${patient._id}`}
+                        className="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition duration-300"
+                      >
+                        View Details
+                      </Link>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="5" className="text-center py-6 text-gray-500">
+                    No patients found.
                   </td>
                 </tr>
-              ))
-            ) : (
-              <tr>
-                <td colSpan="5" className="text-center py-6 text-gray-500">
-                  No patients found.
-                </td>
-              </tr>
-            )}
-          </tbody>
-        </table>
-      </div>
+              )}
+            </tbody>
+          </table>
+        </div>
+      )}
     </div>
   );
 };
