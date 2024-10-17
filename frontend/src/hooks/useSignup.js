@@ -1,26 +1,29 @@
 import React, { useState } from "react";
 import toast from "react-hot-toast";
-import { useAuthContext } from "../context/AuthContext";
 import axios from "axios";
+import { useAuthContext } from "../context/AuthContext";
 
-
-const useLogin = () => {
+const useSignup = () => {
   const [loading, setLoading] = useState(false);
   const { setAuthUser } = useAuthContext();
 
-  const login = async (username, password) => {
-
+  const signup = async ({
+    fullName,
+    username,
+    password,
+  }) => {
     const success = handleInputErrors({
-      
+      fullName,
       username,
       password,
-      
     });
     if (!success) return;
 
     setLoading(true);
+
     try {
-      const res = await axios.post("/auth/login", {
+      const res = await axios.post("/auth/signup", {
+        fullName,
         username,
         password,
       });
@@ -30,31 +33,35 @@ const useLogin = () => {
         throw new Error(data.error);
       }
 
+      // Local storage
       localStorage.setItem("user", JSON.stringify(data));
-      setAuthUser(data);
+
+      // Context
+      setAuthUser(data); // Update the context with user details
     } catch (error) {
-      toast.error("Invalid user" || error.message);
+      toast.error(error.response?.data?.message || error.message);
     } finally {
       setLoading(false);
     }
   };
-  return { loading, login };
+
+  return { loading, signup };
 };
 
-export default useLogin;
-
+export default useSignup;
 
 function handleInputErrors({
+  fullName,
   username,
   password,
 }) {
-  if ( !username || !password ) {
+  if (!fullName || !username || !password ) {
     toast.error("Please fill in all fields");
     return false;
   }
   if (password.length < 6) {
-    toast.error("Password must be 6 characters");
-    return false
+    toast.error("Password must be at least 6 characters");
+    return false;
   }
   return true;
 }

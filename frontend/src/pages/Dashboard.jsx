@@ -59,7 +59,7 @@ const Dashboard = () => {
         <input
           type="text"
           className="w-1/2 p-4 rounded-lg border border-gray-700 bg-gray-800 text-white focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-lg"
-          placeholder="Search by patient name or condition"
+          placeholder="Search by patient name"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
         />
