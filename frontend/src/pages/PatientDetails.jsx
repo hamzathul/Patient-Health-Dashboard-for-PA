@@ -7,13 +7,7 @@ const PatientDetails = () => {
       const { id } = useParams(); // Get patient ID from the URL
       const [patient, setPatient] = useState(null);
       const [loading, setLoading] = useState(true);
-      const [formData, setFormData] = useState({
-        treatment: "",
-        insurancePlan: "",
-        dateOfService: "",
-        diagnosisCode: "",
-        doctorNotes: "",
-      });
+      
 
       // Fetch patient details when the component loads
       useEffect(() => {
@@ -30,28 +24,8 @@ const PatientDetails = () => {
         fetchPatientDetails();
       }, [id]);
 
-      // Handle form input changes
-      const handleChange = (e) => {
-        setFormData({
-          ...formData,
-          [e.target.name]: e.target.value,
-        });
-      };
 
-      // Handle form submission
-      const handleSubmit = async (e) => {
-        e.preventDefault();
-
-        try {
-          await axios.post("/api/authorizations", {
-            ...formData,
-            patientId: id,
-          });
-          alert("Authorization request submitted successfully.");
-        } catch (error) {
-          console.error("Error submitting authorization request:", error);
-        }
-      };
+      
 
       if (loading) {
         return <p>Loading patient details...</p>;

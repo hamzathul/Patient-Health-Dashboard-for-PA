@@ -1,6 +1,40 @@
-import React from 'react'
+import React, { useState } from 'react'
+import axios from 'axios';
+import { useParams } from 'react-router-dom';
 
 const PAForm = () => {
+  const { id } = useParams(); // Get patient ID from the URL
+
+  const [formData, setFormData] = useState({
+    treatment: "",
+    insurancePlan: "",
+    dateOfService: "",
+    diagnosisCode: "",
+    doctorNotes: "",
+  });
+
+  // Handle form input changes
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      await axios.post("/api/authorizations", {
+        ...formData,
+        patientId: id,
+      });
+      alert("Authorization request submitted successfully.");
+    } catch (error) {
+      console.error("Error submitting authorization request:", error);
+    }
+  };
   return (
     <>
       <div className="bg-white shadow-md rounded-lg p-6">
@@ -64,6 +98,7 @@ const PAForm = () => {
               onChange={handleChange}
               className="w-full p-3 rounded-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-400"
               rows="4"
+              required
             ></textarea>
           </div>
 
