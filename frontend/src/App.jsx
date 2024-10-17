@@ -14,20 +14,24 @@ function App() {
     <>
       <Routes>
         <Route
-          path="/dashboard"
+          path="/"
           element={authUser ? <Dashboard /> : <Navigate to="/login" />}
         />
+        {/* <Route
+          path="/dashboard"
+          element={authUser ? <Dashboard /> : <Navigate to="/login" />}
+        /> */}
         <Route
           path="/patient/:id"
           element={authUser ? <PatientDetails /> : <Navigate to="/login" />}
         />
         <Route
           path="/login"
-          element={authUser ? <Navigate to="/dashboard" /> : <Login />}
+          element={authUser ? <Navigate to="/" /> : <Login />}
         />
         <Route
           path="/signup"
-          element={authUser ? <Navigate to="/dashboard" /> : <SignUp />}
+          element={authUser ? <Navigate to="/" /> : <SignUp />}
         />
       </Routes>
       <Toaster />

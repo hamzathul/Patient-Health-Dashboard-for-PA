@@ -6,7 +6,8 @@ import { BrowserRouter } from "react-router-dom";
 import axios from "axios";
 import { AuthContextProvider } from "./context/AuthContext.jsx";
 
-axios.defaults.baseURL = "http://localhost:5000/api";
+axios.defaults.baseURL =
+  import.meta.env.REACT_APP_URI || "http://localhost:5000/api";
 axios.defaults.withCredentials = true; //helps with cookies in the backend
 
 createRoot(document.getElementById("root")).render(
