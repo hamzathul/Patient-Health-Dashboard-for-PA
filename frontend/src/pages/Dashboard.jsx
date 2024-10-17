@@ -10,8 +10,31 @@ const Dashboard = () => {
     const fetchPatients = async () => {
       try {
         const response = await axios.get("/patient/all");
-        console.log(response);
-        setPatients(response.data);
+        const patientData = response.data;
+
+        // Fetch authorization status for each patient
+        const patientsWithStatus = await Promise.all(
+          patientData.map(async (patient) => {
+            try {
+              const authResponse = await axios.get(
+                `/authorization/${patient._id}`
+              );
+              const authStatus =
+                authResponse.data.length > 0
+                  ? authResponse.data[0].authStatus
+                  : "Pending"; // Default to "Pending" if no data is found
+              return { ...patient, authStatus }; // Combine patient data with authorization status
+            } catch (error) {
+              console.error(
+                `Error fetching auth status for patient ${patient._id}`,
+                error
+              );
+              return { ...patient, authStatus: "Pending" }; // Default to "Pending" if API call fails
+            }
+          })
+        );
+
+        setPatients(patientsWithStatus);
       } catch (error) {
         console.error("Error fetching patient data:", error);
       }
@@ -19,6 +42,7 @@ const Dashboard = () => {
 
     fetchPatients();
   }, []);
+
 
   const filteredPatients = patients.filter((patient) =>
     patient.name.toLowerCase().includes(searchQuery.toLowerCase())
@@ -49,6 +73,8 @@ const Dashboard = () => {
               <th className="py-4 px-6 text-left text-lg">Name</th>
               <th className="py-4 px-6 text-left text-lg">Age</th>
               <th className="py-4 px-6 text-left text-lg">Condition</th>
+              <th className="py-4 px-6 text-left text-lg">Status</th>{" "}
+              {/* New Status Column */}
               <th className="py-4 px-6 text-left text-lg">Actions</th>
             </tr>
           </thead>
@@ -64,6 +90,9 @@ const Dashboard = () => {
                   <td className="py-3 px-6 text-gray-300">
                     {patient.condition}
                   </td>
+                  <td className="py-3 px-6 text-gray-300">
+                    {patient.authStatus || "Pending"} {/* Displaying Status */}
+                  </td>
                   <td className="py-3 px-6">
                     <Link
                       to={`/patient/${patient._id}`}
@@ -76,7 +105,7 @@ const Dashboard = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="4" className="text-center py-6 text-gray-500">
+                <td colSpan="5" className="text-center py-6 text-gray-500">
                   No patients found.
                 </td>
               </tr>

@@ -64,11 +64,18 @@ export const createAuthorization = async (req, res) => {
   }
 };
 
-// export const getAuthorization = async(req, res)=>{
-//     const patientId = req.params.id;
-//     try {
-//         const patientAuthorization = await AuthorizationRequest.findById
-//     } catch (error) {
-        
-//     }
-// }
+export const getAuthorization = async(req, res)=>{
+    const patientId = req.params.id;
+    try {
+         const authorization = await AuthorizationRequest.find({ patientId });
+        if (!authorization || authorization.length === 0) {
+          return res
+            .status(200)
+            .json([]);
+        }
+        res.status(200).json(authorization)
+    } catch (error) {
+        console.error("Error in getAuthorization controller:", error);
+        return res.status(400).json({ success: false, message: error.message });
+    }
+}
