@@ -3,7 +3,7 @@ import React, { createContext, useState, useContext } from "react";
 export const AuthContext = createContext();
 
 export const useAuthContext = () => {
-  // 3rd, to consume the values, we use this hook
+  // to consume the values, we use this hook
   return useContext(AuthContext);
 };
 
